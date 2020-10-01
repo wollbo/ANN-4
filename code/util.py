@@ -26,7 +26,7 @@ def softmax(support):
       probabilities: shape is (size of mini-batch, number of categories)      
     """
 
-    expsup = np.exp(support-np.sum(support,axis=1)[:,None])
+    expsup = np.exp(support-np.max(support,axis=1)[:,None])
     return expsup / np.sum(expsup,axis=1)[:,None]
 
 def sample_binary(on_probabilities):    
@@ -80,7 +80,6 @@ def read_mnist(dim=[28,28],n_train=60000,n_test=1000):
     """
     Read mnist train and test data. Images are normalized to be in range [0,1]. Labels are one-hot coded.
     """    
-    import scipy.misc
 
     train_imgs = load_idxfile("train-images-idx3-ubyte")
     train_imgs = train_imgs / 255.

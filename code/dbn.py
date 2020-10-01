@@ -146,17 +146,17 @@ class DeepBeliefNet():
             self.savetofile_rbm(loc="trained_rbm",name="vis--hid")
 
             print ("training hid--pen")
-            self.rbm_stack["vis--hid"].untwine_weights()            
             """ 
             CD-1 training for hid--pen 
             """            
+            self.rbm_stack["vis--hid"].untwine_weights()            
             self.savetofile_rbm(loc="trained_rbm",name="hid--pen")            
 
             print ("training pen+lbl--top")
-            self.rbm_stack["hid--pen"].untwine_weights()
             """ 
             CD-1 training for pen+lbl--top 
             """
+            self.rbm_stack["hid--pen"].untwine_weights()
             self.savetofile_rbm(loc="trained_rbm",name="pen+lbl--top")            
 
         return    
