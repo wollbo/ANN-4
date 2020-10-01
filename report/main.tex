@@ -21,7 +21,7 @@
   \vspace{8mm}  
   {\Large Hilding Wollbo\\}
   \vspace{4mm}
-  {\large September 7, 2020\\}
+  {\large October 7, 2020\\}
 \end{center}
 
 %\begin{framed}
@@ -31,11 +31,12 @@
 %\end{framed}
 
 \section{Main objectives and scope of the assignment}
-
+In this assignment we study Restricted Boltzmann Machines and Deep Belief Networks for classifying and generating images from the MNIST dataset. The RBM was trained using the Contrastive Divergence algorithm, a variant of Gibbs sampling. The DBN was trained using layer-wise pre-training and the wake-sleep algorithm for fine-tuning.
 \section{Method}
 The tasks were implemented in Python using numpy and pandas for data manipulation while matplotlib was used to produce the graphics in the report.
 \section{Restricted Boltzmann Machine}
-
+This RBM was trained using Gibbs sampling, where the conditional distributions $p(v\vert\mathbf{h}), p(v\vert\mathbf{h})$ are estimated iteratively using simultaneous sampling of the visible units given the hidden units and the hidden units given the visible units. This procedure can be run for an arbitrary number of steps, but in this task only 1 iteration was run per parameter update. Gibbs sampling is a Markov Chain Monte Carlo method, where each produced sample is conditionally independent given its neighbouring states. This sampling procedure thus produces a Markov chain, and given the attributes of invariance, periodicity and irreducibility, will converge to the true distribution of the samples. This means that using iterated sampling of the conditional probabilities does not change the joint probability between hidden and visible units, and we can infer that these probability distributions will converge given infinite repeated steps of Gibbs sampling. \\
+In the first task, RBMs were constructed with $784 = 28^2$ visible units, with 200 and 500 hidden units respectively. A learning rate of 0.01 was used, and a momentum term of 0.7 was added to facilitate convergence. The batch size was chosen as 20, and the training process was run for 10 epochs.
 \section{Deep Belief Network}
 
 \subsection{Pre-training}
