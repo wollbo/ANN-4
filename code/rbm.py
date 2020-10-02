@@ -59,14 +59,14 @@ class RestrictedBoltzmannMachine():
         self.print_period = 1000
         
         self.rf = { # receptive-fields. Only applicable when visible layer is input data
-            "period" : 5000, # iteration period to visualize
+            "period" : 10000, # iteration period to visualize
             "grid" : [5,5], # size of the grid
             "ids" : np.random.randint(0,self.ndim_hidden,25) # pick some random hidden units
             }
         
         return
 
-    def cd1(self,visible_trainset, n_iterations=20001):
+    def cd1(self,visible_trainset, n_iterations=30001):
         
         """Contrastive Divergence with k=1 full alternating Gibbs sampling
 
@@ -98,7 +98,7 @@ class RestrictedBoltzmannMachine():
 
             if it % self.rf["period"] == 0 and self.is_bottom:
 
-                viz_rf(weights=self.weight_vh[:,self.rf["ids"]].reshape((self.image_size[0],self.image_size[1],-1)), it=it, grid=self.rf["grid"])
+                viz_rf(weights=self.weight_vh[:,self.rf["ids"]].reshape((self.image_size[0],self.image_size[1],-1)), it=it, grid=self.rf["grid"], nhidden=self.ndim_hidden)
 
             # print progress
 

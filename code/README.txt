@@ -108,3 +108,5 @@ TASK 4.2 Since this involves training three seperate RBMs, it is in the order of
 TASK 4.3 In the range from 30 to 60 minutes.
 
 
+
+
