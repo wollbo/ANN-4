@@ -165,7 +165,8 @@ class DeepBeliefNet():
             """
             # train here
             self.rbm_stack["hid--pen"].cd1(vis_trainset, n_iterations)
-            _, vis_trainset = np.hstack((self.rbm_stack["hid--pen"].get_h_given_v(vis_trainset), lbl_trainset))
+            _, vis = self.rbm_stack["hid--pen"].get_h_given_v(vis_trainset)
+            vis_trainset = np.hstack(vis, lbl_trainset)
             #self.rbm_stack["hid--hid"].untwine_weights()
             self.savetofile_rbm(loc="trained_rbm",name="hid--pen")
             print ("training pen+lbl--top")
