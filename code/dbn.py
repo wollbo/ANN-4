@@ -138,26 +138,43 @@ class DeepBeliefNet():
         except IOError :
 
             # [TODO TASK 4.2] use CD-1 to train all RBMs greedily
-        
+            #self.rbm_stack = {
+            #
+            #   'vis--hid': RestrictedBoltzmannMachine(ndim_visible=sizes["vis"], ndim_hidden=sizes["hid"],
+            #                                           is_bottom=True, image_size=image_size, batch_size=batch_size),
+            #
+            #    'hid--pen': RestrictedBoltzmannMachine(ndim_visible=sizes["hid"], ndim_hidden=sizes["pen"],
+            #                                           batch_size=batch_size),
+            #
+            #    'pen+lbl--top': RestrictedBoltzmannMachine(ndim_visible=sizes["pen"] + sizes["lbl"],
+            #                                               ndim_hidden=sizes["top"],
+            #                                               is_top=True, n_labels=n_labels, batch_size=batch_size)
+            #}
+            # Remember to delete old models in trained_rbm!
             print ("training vis--hid")
             """ 
             CD-1 training for vis--hid 
-            """            
+            """
+            # train here
+            self.rbm_stack["vis--hid"].cd1(vis_trainset, n_iterations)
+            _, vis_trainset = self.rbm_stack["vis--hid"].get_h_given_v(vis_trainset)
             self.savetofile_rbm(loc="trained_rbm",name="vis--hid")
-
             print ("training hid--pen")
             """ 
             CD-1 training for hid--pen 
-            """            
-            self.rbm_stack["vis--hid"].untwine_weights()            
-            self.savetofile_rbm(loc="trained_rbm",name="hid--pen")            
-
+            """
+            # train here
+            self.rbm_stack["hid--pen"].cd1(vis_trainset, n_iterations)
+            _, vis_trainset = np.hstack((self.rbm_stack["hid--pen"].get_h_given_v(vis_trainset), lbl_trainset))
+            #self.rbm_stack["hid--hid"].untwine_weights()
+            self.savetofile_rbm(loc="trained_rbm",name="hid--pen")
             print ("training pen+lbl--top")
             """ 
             CD-1 training for pen+lbl--top 
             """
-            self.rbm_stack["hid--pen"].untwine_weights()
-            self.savetofile_rbm(loc="trained_rbm",name="pen+lbl--top")            
+            # train here, include labels from lbl_trainset
+            self.rbm_stack["pen+lbl--top"].cd1(vis_trainset, n_iterations)
+            self.savetofile_rbm(loc="trained_rbm",name="pen+lbl--top")
 
         return    
 

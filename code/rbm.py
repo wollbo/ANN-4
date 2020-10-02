@@ -227,10 +227,12 @@ class RestrictedBoltzmannMachine():
         assert self.weight_v_to_h is not None
 
         n_samples = visible_minibatch.shape[0]
+        # [TODO TASK 4.2] perform same computation as the function 'get_h_given_v' but with directed connections (replace the zeros below)
 
-        # [TODO TASK 4.2] perform same computation as the function 'get_h_given_v' but with directed connections (replace the zeros below) 
-        
-        return np.zeros((n_samples,self.ndim_hidden)), np.zeros((n_samples,self.ndim_hidden))
+        p_h_given_v = sigmoid(self.bias_h + np.matmul(visible_minibatch, self.weight_v_to_h)) # Naive implementation
+        h_given_v = sample_binary(p_h_given_v)
+
+        return p_h_given_v, h_given_v
 
 
     def get_v_given_h_dir(self,hidden_minibatch):
@@ -270,9 +272,11 @@ class RestrictedBoltzmannMachine():
                         
             # [TODO TASK 4.2] performs same computaton as the function 'get_v_given_h' but with directed connections (replace the pass and zeros below)             
 
-            pass
+            p_v_given_h = sigmoid(self.bias_v + np.matmul(self.weight_h_to_v,
+                                                          hidden_minibatch.T).T)  # Naive implementation, consider using weight_vh!
+            v_given_h = sample_binary(p_v_given_h)
             
-        return np.zeros((n_samples,self.ndim_visible)), np.zeros((n_samples,self.ndim_visible))        
+        return p_v_given_h, v_given_h
         
     def update_generate_params(self,inps,trgs,preds):
         
