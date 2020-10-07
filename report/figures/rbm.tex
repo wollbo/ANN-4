@@ -9,13 +9,11 @@
 \definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}
 \definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}
 \begin{axis}[
-domain=0:1,
-restrict y to domain=0:1,
 width=\linewidth,
 height=3.5cm,
 xmin=0.0,
 xmax=30000,
-ymin=0,
+ymin=1000,
 ymax=5000,
 xmajorgrids,
 x grid style={white!69.01960784313725!black},
@@ -27,8 +25,8 @@ xlabel={Iteration},
 ylabel={Reconstruction error},
 axis background /.style={fill=white},
 legend style={legend cell align=left, align=left, font=\fontsize{8}{0}\selectfont, draw=white!15!black,
-at={(0.99,0.04)}, anchor=south east}]
-\addplot [line width=1.5pt, mycolor1]
+at={(0.99,0.95)}, anchor=north east}]
+\addplot [line width=0.5pt, mycolor1]
 table {%
     0	4734.6753
  1000	2842.6220
@@ -63,7 +61,7 @@ table {%
 30000	1835.7286
 };
 \addlegendentry{200}
-\addplot [line width=1.5pt, mycolor2]
+\addplot [line width=0.5pt, mycolor2]
 table {%
     0	4720.0090
  1000	2736.8473
@@ -98,7 +96,7 @@ table {%
 30000	1742.5892
 };
 \addlegendentry{350}
-\addplot [line width=1.5pt, mycolor3]
+\addplot [line width=0.5pt, mycolor3]
 table {%
     0	4697.2908
  1000	2680.1205

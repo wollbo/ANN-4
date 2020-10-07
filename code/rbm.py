@@ -52,11 +52,11 @@ class RestrictedBoltzmannMachine():
         
         self.weight_h_to_v = None
 
-        self.learning_rate = 0.001
+        self.learning_rate = 0.01
         
-        self.momentum = 0.7
+        self.momentum = 0.5
 
-        self.print_period = 1000
+        self.print_period = 100
         
         self.rf = { # receptive-fields. Only applicable when visible layer is input data
             "period" : 10000, # iteration period to visualize
@@ -89,10 +89,10 @@ class RestrictedBoltzmannMachine():
             visible = visible_trainset[idx[0]:idx[0]+self.batch_size, :]
 
             v_0 = visible
-            _, h_0 = self.get_h_given_v(visible)
+            pv0, h_0 = self.get_h_given_v(visible) # Consider copy
             pv, v = self.get_v_given_h(h_0)
             ph, h = self.get_h_given_v(v)
-            self.update_params(v_0, h_0, pv, ph)
+            self.update_params(v_0, pv0, pv, ph)
 
             # visualize once in a while when visible layer is input images
 
@@ -187,8 +187,16 @@ class RestrictedBoltzmannMachine():
 
             # [TODO TASK 4.1] compute probabilities and activations (samples from probabilities) of visible layer (replace the pass below). \
             # Note that this section can also be postponed until TASK 4.2, since in this task, stand-alone RBMs do not contain labels in visible layer.
-            
-            pass
+            intermediate = self.bias_v + np.matmul(self.weight_vh, hidden_minibatch.T).T
+            rbm_data = intermediate[:, :-self.n_labels]
+            lbl_data = intermediate[:, -self.n_labels:] # lbl data outermost
+            p_v_given_h_rbm = sigmoid(rbm_data)
+            p_v_given_h_lbl = softmax(lbl_data)
+            v_given_h_rbm = sample_binary(p_v_given_h_rbm)
+            v_given_h_lbl = sample_categorical(p_v_given_h_lbl)
+
+            p_v_given_h = np.hstack((p_v_given_h_rbm, p_v_given_h_lbl)) # orientation? .T?
+            v_given_h = np.hstack((v_given_h_rbm, v_given_h_lbl))
             
         else:
                         
@@ -225,7 +233,6 @@ class RestrictedBoltzmannMachine():
         """
         
         assert self.weight_v_to_h is not None
-
         n_samples = visible_minibatch.shape[0]
         # [TODO TASK 4.2] perform same computation as the function 'get_h_given_v' but with directed connections (replace the zeros below)
 
@@ -270,10 +277,9 @@ class RestrictedBoltzmannMachine():
             
         else:
                         
-            # [TODO TASK 4.2] performs same computaton as the function 'get_v_given_h' but with directed connections (replace the pass and zeros below)             
-
-            p_v_given_h = sigmoid(self.bias_v + np.matmul(self.weight_h_to_v,
-                                                          hidden_minibatch.T).T)  # Naive implementation, consider using weight_vh!
+            # [TODO TASK 4.2] performs same computaton as the function 'get_v_given_h' but with directed connections (replace the pass and zeros below)
+            p_v_given_h = sigmoid(self.bias_v + np.matmul(self.weight_h_to_v.T,
+                                                          hidden_minibatch.T).T) # Switch places, remove transposes?
             v_given_h = sample_binary(p_v_given_h)
             
         return p_v_given_h, v_given_h

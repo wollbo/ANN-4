@@ -1,0 +1,100 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat = 1.9}
+\usepackage{xcolor}
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}
+\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}
+\definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+width=\linewidth,
+height=3.5cm,
+xmin=0,
+xmax=18000,
+ymin=1000,
+ymax=4000,
+xmajorgrids,
+x grid style={white!69.01960784313725!black},
+ymajorgrids,
+y grid style={white!69.01960784313725!black},
+tick align=outside,
+tick pos=left,
+xlabel={Iteration},
+ylabel={Reconstruction error},
+axis background /.style={fill=white},
+legend style={legend cell align=left, align=left, font=\fontsize{8}{0}\selectfont, draw=white!15!black,
+at={(0.99,0.99)}, anchor=north east}]
+\addplot [line width=0.5pt, mycolor1]
+	table {%
+	0 	2727.0754
+	1000 1786.6578
+	2000 1653.6106
+	3000 1586.4422
+	4000 1544.6873
+	5000 1524.6311
+	6000 1505.8615
+	7000 1488.5194
+	8000 1477.1520
+	9000 1467.4897
+	10000 1460.8035
+	11000 1449.0442
+	12000 1448.0991
+	13000 1446.2884
+	14000 1441.5665
+	15000 1438.9781
+	16000 1432.1753
+	17000 1429.6479
+	18000 1427.5686
+};
+\addlegendentry{vis--hid}
+\addplot [line width=0.5pt, mycolor2]
+	table {%
+	0 3514.7410
+	1000 1933.1663
+	2000 1791.7743
+	3000 1710.5221
+	4000 1651.1620
+	5000 1622.2863
+	6000 1586.7596
+	7000 1562.7405
+	8000 1550.6863
+	9000 1535.9320
+	10000 1519.6381
+	11000 1516.1768
+	12000 1507.5129
+	13000 1502.5009
+	14000 1488.4106
+	15000 1479.1623
+	16000 1476.1172
+	17000 1470.1197
+	18000 1470.1139
+};
+\addlegendentry{hid--pen}
+\addplot [line width=0.5pt, mycolor3]
+	table {%
+	0 2727.0754
+	1000 1786.6578
+	2000 1653.6106
+	3000 1586.4422
+	4000 1544.6873
+	5000 1524.6311
+	6000 1505.8615
+	7000 1488.5194
+	8000 1477.1520
+	9000 1467.4897
+	10000 1460.8035
+	11000 1449.0442
+	12000 1448.0991
+	13000 1446.2884
+	14000 1441.5665
+	15000 1438.9781
+	16000 1432.1753
+	17000 1429.6479
+	18000 1427.5686
+};
+\addlegendentry{pen+lbl--top}
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,6 +1,7 @@
 from util import *
 from rbm import RestrictedBoltzmannMachine 
 from dbn import DeepBeliefNet
+import sys
 
 if __name__ == "__main__":
 
@@ -20,8 +21,8 @@ if __name__ == "__main__":
                                      batch_size=20
     )
     
-    rbm.cd1(visible_trainset=train_imgs, n_iterations=100)
-    
+    #rbm.cd1(visible_trainset=train_imgs, n_iterations=10001)
+
     ''' deep- belief net '''
 
     print ("\nStarting a Deep Belief Net..")
@@ -34,17 +35,18 @@ if __name__ == "__main__":
     
     ''' greedy layer-wise training '''
 
-    dbn.train_greedylayerwise(vis_trainset=train_imgs, lbl_trainset=train_lbls, n_iterations=10000)
+    dbn.train_greedylayerwise(vis_trainset=train_imgs, lbl_trainset=train_lbls, n_iterations=18001)
 
-    dbn.recognize(train_imgs, train_lbls)
+    #dbn.recognize(train_imgs, train_lbls)
     
-    dbn.recognize(test_imgs, test_lbls)
+    #dbn.recognize(test_imgs, test_lbls)
 
     for digit in range(10):
         digit_1hot = np.zeros(shape=(1,10))
         digit_1hot[0,digit] = 1
         dbn.generate(digit_1hot, name="rbms")
 
+    sys.exit(0)
     ''' fine-tune wake-sleep training '''
 
     dbn.train_wakesleep_finetune(vis_trainset=train_imgs, lbl_trainset=train_lbls, n_iterations=10000)
